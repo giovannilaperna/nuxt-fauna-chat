@@ -1,25 +1,40 @@
-// This file is executed once when the server is started
+import { io } from './socket'
+import { q, client } from './db'
 
-// Setup a socket.io server on port 3001 that has CORS disabled
-// (do not set this to port 3000 as port 3000 is where
-// the nuxt dev server serves your nuxt application)
-const io = require("socket.io")(3001, {
-    cors: {
-        // No CORS at all
-        origin: '*',
+const chat = '325076714366435528'
+const setRef = q.Match(q.Index('messages_by_chat'), chat)
+const streamOptions = { fields: ['action', 'document', 'index', 'diff'] }
+
+const report = async (e) => {
+    const { action, document } = e
+    if (action === 'add') {
+        console.log(document.ref)
+        const { ref: { value: { id }}} = document
+        const { data } = await client.query(
+            q.Get(q.Ref(q.Collection('chat_messages'), id))
+        )
+        io.emit(chat, data)
     }
-});
-  
-var i = 0;
-// Broadcast "tick" event every second
-// Or do whatever you want with io ;)
-setInterval(() => {
-    i++;
-    io.emit("tick", i);
-}, 1000);
+}
+
+let stream
+const startStream = () => {
+    stream = client.stream(setRef, streamOptions)
+    .on('start', start => { report(start) })
+    .on('set', set => { report(set) })
+    .on('error', error => {
+        console.log('Error:', error)
+        stream.close()
+        setTimeout(startStream, 1000)
+    })
+    .start()
+}
+
+startStream()
   
 // Since we are a serverMiddleware, we have to return a handler,
 // even if this it does nothing
 export default function (req, res, next) {
     next()
 }
+

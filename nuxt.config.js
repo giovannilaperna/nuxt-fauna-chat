@@ -56,7 +56,7 @@ export default {
       // one of these sockets may have set "default" to true
       sockets: [{
         default: true, // make this the default socket
-        name: 'main', // give it a name that we can later use to choose this socket in the .vue file
+        name: 'chat', // give it a name that we can later use to choose this socket in the .vue file
         url: 'http://localhost:3001' // URL wherever your socket IO server runs
       }]
     },

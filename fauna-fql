@@ -1,2 +1,22 @@
 CreateCollection({ name: "chats" })
 CreateCollection({ name: "chat_messages" })
+
+CreateIndex({
+  name: "messages_by_chat",
+  source: {
+    collection: Collection("chat_messages")
+  },
+  terms: [
+    {
+      field: ["data", "chat"]
+    }
+  ],
+  values: [
+    {
+       field: ["data", "created_at"], reverse: true
+    },
+    {
+      field: ["ref"]
+    }
+  ]
+})
