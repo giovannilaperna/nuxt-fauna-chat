@@ -1,6 +1,6 @@
 export default {
     chat: {
-        hello: 'Hallo!',
+        hello: 'Hi 👋 Thanks for getting in touch.',
         you: 'You',
         writeMessage: 'Write a message...'
     }

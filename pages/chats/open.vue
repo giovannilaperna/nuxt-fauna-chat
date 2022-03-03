@@ -1,9 +1,24 @@
 <template>
-    <section class="section container">
-        {{ chats.length }}
-        <div v-for="chat in chats" :key="chat.ref" :value="chat" class="block">
-            {{ chat.ref }} / {{ chat.status }}
-        </div>
+    <section class="section">
+        <h1 class="title">Open Chats</h1>
+        <b-table :data="chats">
+            <template>
+                <b-table-column v-slot="props" label="Ref" field="ref" searchable>
+                    {{ props.row.ref }}
+                </b-table-column>
+                <b-table-column  v-slot="props" label="User" field="status" searchable>
+                    {{ props.row.user }}
+                </b-table-column>                     
+                <b-table-column v-slot="props" label="Created">
+                    {{ $moment(props.row.created_at).fromNow() }}
+                </b-table-column>
+                <b-table-column v-slot="props">
+                    <nuxt-link :to="'/en/chats/open/'+props.row.ref">
+                        View
+                    </nuxt-link>
+                </b-table-column>
+            </template>
+        </b-table>
     </section>
 </template>
 
