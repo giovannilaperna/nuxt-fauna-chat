@@ -10,9 +10,10 @@ const report = async (e) => {
     if (action === 'add') {
         console.log(document.ref)
         const { ref: { value: { id }}} = document
-        const { data } = await client.query(
+        const { data, ref: { value: { id: chatId }}} = await client.query(
             q.Get(q.Ref(q.Collection('chat_messages'), id))
         )
+        data.ref = chatId
         io.emit(chat, data)
     }
 }

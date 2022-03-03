@@ -22,7 +22,6 @@
     />
 </template>
 
-
 <script>
 export default {
     data() {
@@ -39,13 +38,9 @@ export default {
                     imageUrl: 'https://avatars3.githubusercontent.com/u/37018832?s=200&v=4'
                 }
             ], // the list of all the participant of the conversation. `name` is the user name, `id` is used to establish the author of a message, `imageUrl` is supposed to be the user avatar.
-            messageList: [
-                { type: 'text', author: `me`, data: { text: this.$t('chat.hello') } },
-                { type: 'text', author: `user1`, data: { text: `No.` } }
-            ], // the list of the messages to show, can be paginated and adjusted dynamically
+            messageList: [],
             newMessagesCount: 0,
-            isChatOpen: false, // to determine whether the chat window should be open or closed
-            showTypingIndicator: '', // when set to a value matching the participant.id it shows the typing indicator for the specific user
+            isChatOpen: false,
             colors: {
                 header: {
                     bg: '#7957d5',
@@ -83,17 +78,19 @@ export default {
         },
         onMessageWasSent (message) {
             // called when the user sends a message
-            console.log(message)
             this.messageList = [ ...this.messageList, message ]
         },
         openChat () {
             // called when the user clicks on the fab button to open the chat
             this.isChatOpen = true
+            this.messageList = []
             this.newMessagesCount = 0
         },
         closeChat () {
             // called when the user clicks on the botton to close the chat
             this.isChatOpen = false
+            this.messageList = []
+            this.newMessagesCount = 0
         },
         handleScrollToTop () {
             // called when the user scrolls message list to top
