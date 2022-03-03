@@ -3,12 +3,11 @@ import { q, client } from './db'
 
 const chat = '325076714366435528'
 const setRef = q.Match(q.Index('messages_by_chat'), chat)
-const streamOptions = { fields: ['action', 'document', 'index', 'diff'] }
+const streamOptions = { fields: ['action', 'document'] }
 
 const report = async (e) => {
     const { action, document } = e
     if (action === 'add') {
-        console.log(document.ref)
         const { ref: { value: { id }}} = document
         const { data, ref: { value: { id: chatId }}} = await client.query(
             q.Get(q.Ref(q.Collection('chat_messages'), id))
@@ -21,7 +20,7 @@ const report = async (e) => {
 let stream
 const startStream = () => {
     stream = client.stream(setRef, streamOptions)
-    .on('start', start => { report(start) })
+    // .on('start', start => { report(start) })
     .on('set', set => { report(set) })
     .on('error', error => {
         console.log('Error:', error)

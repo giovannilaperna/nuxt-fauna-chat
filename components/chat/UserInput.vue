@@ -30,7 +30,7 @@
         role="button"
         tabIndex="0"
         contentEditable="true"
-        :placeholder="placeholder"
+        :placeholder="$t('chat.writeMessage')"
         class="sc-user-input--text"
         :style="{color: colors.userInput.text}"
         @focus="setInputActive(true)"
@@ -104,10 +104,6 @@ export default {
     onSubmit: {
       type: Function,
       required: true
-    },
-    placeholder: {
-      type: String,
-      default: 'Write something...'
     },
     colors: {
       type: Object,

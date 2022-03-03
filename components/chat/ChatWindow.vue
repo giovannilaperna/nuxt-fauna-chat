@@ -52,7 +52,6 @@
       :send-emojis-directly="sendEmojisDirectly"
       :on-submit="onUserInputSubmit"
       :show-file="showFile"
-      :placeholder="placeholder"
       :colors="colors"
       @onType="$emit('onType')"
     />
@@ -116,10 +115,6 @@ export default {
     isOpen: {
       type: Boolean,
       default: () => false
-    },
-    placeholder: {
-      type: String,
-      required: true
     },
     showTypingIndicator: {
       type: String,

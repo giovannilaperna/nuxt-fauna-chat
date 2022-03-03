@@ -143,8 +143,8 @@ export default {
       default: () => 0
     },
     placeholder: {
-      type: String,
-      default: 'Write a message...'
+      type: Function,
+      default: () => this.$t('chat.writeMessage')
     },
     showTypingIndicator: {
       type: String,
