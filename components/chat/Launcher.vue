@@ -23,7 +23,6 @@
       :send-emojis-directly="sendEmojisDirectly"
       :show-file="showFile"
       :show-header="showHeader"
-      :placeholder="placeholder"
       :show-typing-indicator="showTypingIndicator"
       :colors="colors"
       :always-scroll-to-bottom="alwaysScrollToBottom"
@@ -141,10 +140,6 @@ export default {
     newMessagesCount: {
       type: Number,
       default: () => 0
-    },
-    placeholder: {
-      type: Function,
-      default: () => this.$t('chat.writeMessage')
     },
     showTypingIndicator: {
       type: String,
