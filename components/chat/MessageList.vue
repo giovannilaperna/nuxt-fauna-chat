@@ -34,13 +34,6 @@
         </slot>
       </template>
     </Message>
-    <Message
-      v-show="showTypingIndicator !== ''"
-      :message="{author: showTypingIndicator, type: 'typing'}"
-      :user="profile(showTypingIndicator)"
-      :colors="colors"
-      :message-styling="messageStyling"
-    />
   </div>
 </template>
 
@@ -59,10 +52,6 @@ export default {
     },
     messages: {
       type: Array,
-      required: true
-    },
-    showTypingIndicator: {
-      type: String,
       required: true
     },
     colors: {

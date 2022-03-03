@@ -7,9 +7,6 @@
       :style="{backgroundColor: colors.launcher.bg}"
       @click.prevent="isOpen ? close() : openAndFocus()"
     >
-      <div v-if="newMessagesCount > 0 && !isOpen" class="sc-new-messsages-count">
-        {{ newMessagesCount }}
-      </div>
       <img v-if="isOpen" class="sc-closed-icon" :src="icons.close.img" :alt="icons.close.name" />
       <img v-else class="sc-open-icon" :src="icons.open.img" :alt="icons.open.name" />
     </div>
@@ -23,7 +20,6 @@
       :send-emojis-directly="sendEmojisDirectly"
       :show-file="showFile"
       :show-header="showHeader"
-      :show-typing-indicator="showTypingIndicator"
       :colors="colors"
       :always-scroll-to-bottom="alwaysScrollToBottom"
       :message-styling="messageStyling"
@@ -140,10 +136,6 @@ export default {
     newMessagesCount: {
       type: Number,
       default: () => 0
-    },
-    showTypingIndicator: {
-      type: String,
-      default: () => ''
     },
     colors: {
       type: Object,
@@ -284,23 +276,5 @@ export default {
 
 .sc-launcher:hover {
   box-shadow: 0 0px 27px 1.5px rgba(0, 0, 0, 0.2);
-}
-
-.sc-new-messsages-count {
-  position: absolute;
-  top: -3px;
-  left: 41px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  border-radius: 50%;
-  width: 22px;
-  height: 22px;
-  background: #ff4646;
-  color: white;
-  text-align: center;
-  margin: auto;
-  font-size: 12px;
-  font-weight: 500;
 }
 </style>

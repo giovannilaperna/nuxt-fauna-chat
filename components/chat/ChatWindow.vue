@@ -18,7 +18,6 @@
       v-if="!showUserList"
       :messages="messages"
       :participants="participants"
-      :show-typing-indicator="showTypingIndicator"
       :colors="colors"
       :always-scroll-to-bottom="alwaysScrollToBottom"
       :message-styling="messageStyling"
@@ -115,10 +114,6 @@ export default {
     isOpen: {
       type: Boolean,
       default: () => false
-    },
-    showTypingIndicator: {
-      type: String,
-      required: true
     },
     colors: {
       type: Object,

@@ -3,7 +3,6 @@
         :participants="participants"
         :onMessageWasSent="onMessageWasSent"
         :messageList="messageList"
-        :newMessagesCount="newMessagesCount"
         :isOpen="isChatOpen"
         :close="closeChat"
         :open="openChat"
@@ -11,7 +10,6 @@
         :sendEmojisDirectly="false"
         :showFile="true"
         :deletionConfirmation="true"
-        :showTypingIndicator="showTypingIndicator"
         :showLauncher="true"
         :showCloseButton="true"
         :colors="colors"
@@ -26,6 +24,7 @@
 export default {
     data() {
         return {
+            chatId: null,
             participants: [
                 {
                     id: 'user1',
@@ -39,7 +38,6 @@ export default {
                 }
             ], // the list of all the participant of the conversation. `name` is the user name, `id` is used to establish the author of a message, `imageUrl` is supposed to be the user avatar.
             messageList: [],
-            newMessagesCount: 0,
             isChatOpen: false,
             colors: {
                 header: {
@@ -70,27 +68,24 @@ export default {
         }
     },
     methods: {
-        sendMessage (text) {
-            if (text.length > 0) {
-                this.newMessagesCount = this.isChatOpen ? this.newMessagesCount : this.newMessagesCount + 1
-                this.onMessageWasSent({ author: 'support', type: 'text', data: { text } })
-            }
+        async onMessageWasSent (message) {
+            await this.$axios.post(`/ws/chat/${this.chatId}/message`, { message })
         },
-        onMessageWasSent (message) {
-            // called when the user sends a message
-            this.messageList = [ ...this.messageList, message ]
-        },
-        openChat () {
-            // called when the user clicks on the fab button to open the chat
+        async openChat () {
             this.isChatOpen = true
             this.messageList = []
-            this.newMessagesCount = 0
+            const { data: { chatId }} = await this.$axios.post('/ws/chat')
+            this.chatId = chatId
+            this.socket = this.$nuxtSocket({ name: "chat" })
+            this.socket.on(this.chatId, (message) => {
+                this.messageList.push(message)
+            })
         },
-        closeChat () {
-            // called when the user clicks on the botton to close the chat
+        async closeChat () {
+            this.chat = null
             this.isChatOpen = false
             this.messageList = []
-            this.newMessagesCount = 0
+            await this.$axios.post(`/ws/chat/${this.chatId}/close`)
         },
         handleScrollToTop () {
             // called when the user scrolls message list to top

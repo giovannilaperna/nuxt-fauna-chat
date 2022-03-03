@@ -1,19 +1,27 @@
+import express from 'express'
+const app = express()
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 import { io } from './socket'
 import { q, client } from './db'
+import chat from './routes/chat'
+app.use(chat)
 
-const chat = '325076714366435528'
-const setRef = q.Match(q.Index('messages_by_chat'), chat)
+
+// const setRef = q.Match(q.Index('messages_by_chat'), chatId)
+const setRef = q.Documents(q.Collection("chat_messages"))
 const streamOptions = { fields: ['action', 'document'] }
 
 const report = async (e) => {
     const { action, document } = e
     if (action === 'add') {
         const { ref: { value: { id }}} = document
-        const { data, ref: { value: { id: chatId }}} = await client.query(
+        const { data, ref: { value: { id: messageId }}} = await client.query(
             q.Get(q.Ref(q.Collection('chat_messages'), id))
         )
-        data.ref = chatId
-        io.emit(chat, data)
+        data.ref = messageId
+        io.emit(data.chat, data)
     }
 }
 
@@ -31,10 +39,9 @@ const startStream = () => {
 }
 
 startStream()
-  
-// Since we are a serverMiddleware, we have to return a handler,
-// even if this it does nothing
-export default function (req, res, next) {
-    next()
+
+module.exports = {
+  path: '/ws',
+  handler: app
 }
 
