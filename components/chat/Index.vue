@@ -16,7 +16,6 @@
         :alwaysScrollToBottom="alwaysScrollToBottom"
         :disableUserListToggle="false"
         :messageStyling="messageStyling"
-        @onType="handleOnType"
     />
 </template>
 
@@ -74,7 +73,7 @@ export default {
         async openChat () {
             this.isChatOpen = true
             this.messageList = []
-            const { data: { chatId }} = await this.$axios.post('/ws/chat')
+            const { data: { chatId }} = await this.$axios.post('/ws/chat/open', { lang : this.$i18n.locale })
             this.chatId = chatId
             this.socket = this.$nuxtSocket({ name: "chat" })
             this.socket.on(this.chatId, (message) => {
@@ -86,13 +85,6 @@ export default {
             this.isChatOpen = false
             this.messageList = []
             await this.$axios.post(`/ws/chat/${this.chatId}/close`)
-        },
-        handleScrollToTop () {
-            // called when the user scrolls message list to top
-            // leverage pagination for loading another page of messages
-        },
-        handleOnType () {
-            console.log('Emit typing event')
         }
     }
 }
