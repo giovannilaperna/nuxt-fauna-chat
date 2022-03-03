@@ -1,10 +1,7 @@
 <template>
     <section class="section container">
         <div class="block">
-            <nuxt-link :to="localePath({ name: 'foo'})">foo</nuxt-link>
-        </div>
-        <div class="block">
-            <nuxt-link :to="localePath({ name: 'bar'})">bar</nuxt-link>
+            <nuxt-link :to="localePath({ name: 'chats-open'})">Chats</nuxt-link>
         </div>
         <div class="buttons">
             <nuxt-link

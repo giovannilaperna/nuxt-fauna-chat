@@ -75,7 +75,7 @@ export default {
             this.messageList = []
             const { data: { chatId }} = await this.$axios.post('/ws/chat/open', { lang : this.$i18n.locale })
             this.chatId = chatId
-            this.socket = this.$nuxtSocket({ name: "chat" })
+            this.socket = this.$nuxtSocket({ name: "chat" }) // withCredentials: true
             this.socket.on(this.chatId, (message) => {
                 this.messageList.push(message)
             })

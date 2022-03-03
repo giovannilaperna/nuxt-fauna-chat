@@ -29,6 +29,7 @@
     "faunadb": "^4.5.2",
     "imagemin": "^6.1.0",
     "kind-of": "6.0.3",
+    "lodash.remove": "^4.7.0",
     "minimist": "1.2.3",
     "msgdown": "^1.0.2",
     "nuxt": "^2.15.8",

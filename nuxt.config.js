@@ -52,13 +52,17 @@ export default {
     ],
 
     io: {
-      // we could have multiple sockets that we identify with names
-      // one of these sockets may have set "default" to true
-      sockets: [{
-        default: true, // make this the default socket
-        name: 'chat', // give it a name that we can later use to choose this socket in the .vue file
-        url: 'http://localhost:3001' // URL wherever your socket IO server runs
-      }]
+      sockets: [
+        {
+          default: true,
+          name: 'chat',
+          url: (process.env.URL) ? `https://${process.env.URL}:3001` : 'http://localhost:3001'
+        },
+        {
+          name: 'chats',
+          url: (process.env.URL) ? `https://${process.env.URL}:3001` : 'http://localhost:3001'
+        },
+      ]
     },
   
     cookies: {

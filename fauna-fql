@@ -20,3 +20,23 @@ CreateIndex({
     }
   ]
 })
+
+CreateIndex({
+  name: "chats_by_status",
+  source: {
+    collection: Collection("chats")
+  },
+  terms: [
+    {
+      field: ["data", "status"]
+    }
+  ],
+  values: [
+    {
+       field: ["data", "created_at"], reverse: true
+    },
+    {
+      field: ["ref"]
+    }
+  ]
+})
